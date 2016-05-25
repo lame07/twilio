@@ -1,5 +1,9 @@
 ## Quick Installation Guide
 
+### 0. Install Composer Dependencies
+
+composer install
+
 ### 1. Set Up .env.local.php
 
 ```php
