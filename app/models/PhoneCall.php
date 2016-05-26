@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class PhoneCall extends Model
 {
 
-	protected $table = 'phone_calls';
+    protected $table = 'phone_calls';
 
 }
