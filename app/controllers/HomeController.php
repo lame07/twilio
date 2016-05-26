@@ -1,26 +1,23 @@
 <?php
 
-class HomeController extends BaseController
-{
+class HomeController extends BaseController {
 
-	public function showIndex()
+	/*
+	|--------------------------------------------------------------------------
+	| Default Home Controller
+	|--------------------------------------------------------------------------
+	|
+	| You may wish to use controllers instead of, or in addition to, Closure
+	| based routes. That's great! Here is an example controller method to
+	| get you started. To route to this controller, just add the route:
+	|
+	|	Route::get('/', 'HomeController@showWelcome');
+	|
+	*/
+
+	public function showWelcome()
 	{
-		$phoneNumber	 = false;
-		$errorMessage	 = false;
-
-		if (Input::has('country')) {
-			$twilioClient = new Services_Twilio(getenv('TWILIO_API_SID'), getenv('TWILIO_API_TOKEN'));
-
-			$numberProvider = new \models\PhoneNumberProvider($twilioClient, Input::get('country'));
-
-			try {
-				$phoneNumber = $numberProvider->getPhoneNumber()->phone_number;
-			} catch (Services_Twilio_RestException $e) {
-				$errorMessage = $e->getMessage();
-			}
-		}
-
-		return View::make('index')->with('phoneNumber', $phoneNumber)->with('errorMessage', $errorMessage);
+		return View::make('hello');
 	}
 
 }
