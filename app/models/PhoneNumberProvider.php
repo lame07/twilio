@@ -1,6 +1,6 @@
 <?php
 
-namespace models;
+namespace app\models;
 
 class PhoneNumberProvider
 {
@@ -26,7 +26,7 @@ class PhoneNumberProvider
 
     public function loadPhoneNumber()
     {
-        return $this->phoneNumber = \models\PhoneNumber::where('country_code', $this->countryCode)
+        return $this->phoneNumber = app\models\PhoneNumber::where('country_code', $this->countryCode)
             ->first();
     }
 
@@ -41,7 +41,7 @@ class PhoneNumberProvider
         ));
 
         if ($number) {
-            $this->phoneNumber               = new \models\PhoneNumber();
+            $this->phoneNumber               = new app\models\PhoneNumber();
             $this->phoneNumber->phone_number = $number->phone_number;
             $this->phoneNumber->sid          = $number->sid;
             $this->phoneNumber->country_code = $this->countryCode;

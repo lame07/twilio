@@ -9,9 +9,9 @@ class HomeController extends BaseController
         $errorMessage = false;
 
         if (Input::has('country')) {
-            $twilioClient = new Services_Twilio(getenv('TWILIO_API_SID'), getenv('TWILIO_API_TOKEN'));
+            $twilioClient = new \Services_Twilio(getenv('TWILIO_API_SID'), getenv('TWILIO_API_TOKEN'));
 
-            $numberProvider = new \models\PhoneNumberProvider($twilioClient, Input::get('country'));
+            $numberProvider = new app\models\PhoneNumberProvider($twilioClient, Input::get('country'));
 
             try {
                 $phoneNumber = $numberProvider->getPhoneNumber()->phone_number;
