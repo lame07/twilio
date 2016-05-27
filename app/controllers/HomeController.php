@@ -14,35 +14,15 @@ class HomeController extends BaseController
             return Redirect::route('indexPage');
         }
 
-        $countryCode      = strtoupper(Input::get('country'));
-        $phoneNumberModel = \app\models\PhoneNumber::where('country_code', $countryCode)->first();
-        $phoneNumber      = false;
-        $errorMessage     = false;
+        $errorMessage = false;
+        $phoneNumber  = false;
 
-        if ($phoneNumberModel === null) {
-            try {
-                $numbers = app(\Services_Twilio::class)->account->available_phone_numbers->getList($countryCode, 'Local');
-                $number  = app(\Services_Twilio::class)->account->incoming_phone_numbers->create(array(
-                    "FriendlyName" => "{$countryCode} Number",
-                    "VoiceUrl"     => URL::route('twilioRespond'),
-                    "PhoneNumber"  => $numbers->available_phone_numbers[0]->phone_number,
-                    "VoiceMethod"  => "GET"
-                ));
-
-                if ($number) {
-                    $phoneNumberModel               = new \app\models\PhoneNumber();
-                    $phoneNumberModel->phone_number = $number->phone_number;
-                    $phoneNumberModel->sid          = $number->sid;
-                    $phoneNumberModel->country_code = $countryCode;
-                    $phoneNumberModel->save();
-                }
-            } catch (\Services_Twilio_RestException $e) {
-                $errorMessage = $e->getMessage();
-            }
-        }
-
-        if ($phoneNumberModel instanceof \app\models\PhoneNumber) {
-            $phoneNumber = $phoneNumberModel->phone_number;
+        try {
+            $phoneNumberProvider = new \app\providers\PhoneNumberProvider(Input::get('country'));
+            $phoneNumberModel    = $phoneNumberProvider->getPhoneNumber();
+            $phoneNumber         = $phoneNumberModel->phone_number;
+        } catch (\Services_Twilio_RestException $e) {
+            $errorMessage = $e->getMessage();
         }
 
         return View::make('call_page')->with('phoneNumber', $phoneNumber)->with('errorMessage', $errorMessage);

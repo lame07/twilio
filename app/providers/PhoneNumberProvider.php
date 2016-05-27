@@ -15,17 +15,13 @@ class PhoneNumberProvider
 
     public function getPhoneNumber()
     {
-        if (!$this->loadPhoneNumber()) {
+        $this->phoneNumber = \app\models\PhoneNumber::where('country_code', $this->countryCode)->first();
+
+        if ($this->phoneNumber === null) {
             $this->createPhoneNumber();
         }
 
         return $this->phoneNumber;
-    }
-
-    public function loadPhoneNumber()
-    {
-        return $this->phoneNumber = \app\models\PhoneNumber::where('country_code', $this->countryCode)
-            ->first();
     }
 
     public function createPhoneNumber()
