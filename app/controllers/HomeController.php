@@ -5,6 +5,11 @@ class HomeController extends BaseController
 
     public function showIndex()
     {
+        return View::make('index');
+    }
+
+    public function showCallPage()
+    {
         $phoneNumber  = false;
         $errorMessage = false;
 
@@ -18,9 +23,11 @@ class HomeController extends BaseController
             } catch (\Services_Twilio_RestException $e) {
                 $errorMessage = $e->getMessage();
             }
+        } else {
+            return Redirect::route('indexPage');
         }
 
-        return View::make('index')->with('phoneNumber', $phoneNumber)->with('errorMessage', $errorMessage);
+        return View::make('call_page')->with('phoneNumber', $phoneNumber)->with('errorMessage', $errorMessage);
     }
 
 }
