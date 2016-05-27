@@ -1,23 +1,31 @@
 <?php
 
-class HomeController extends BaseController {
+class HomeController extends BaseController
+{
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
+    public function showIndex()
+    {
+        return View::make('index');
+    }
 
-	public function showWelcome()
-	{
-		return View::make('hello');
-	}
+    public function showCallPage()
+    {
+        if (!Input::has('country')) {
+            return Redirect::route('indexPage');
+        }
+
+        $errorMessage = false;
+        $phoneNumber  = false;
+
+        try {
+            $phoneNumberProvider = new \app\providers\PhoneNumberProvider(Input::get('country'));
+            $phoneNumberModel    = $phoneNumberProvider->getPhoneNumber();
+            $phoneNumber         = $phoneNumberModel->phone_number;
+        } catch (\Services_Twilio_RestException $e) {
+            $errorMessage = $e->getMessage();
+        }
+
+        return View::make('call_page')->with('phoneNumber', $phoneNumber)->with('errorMessage', $errorMessage);
+    }
 
 }
