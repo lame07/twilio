@@ -1,18 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\providers;
 
 class PhoneNumberProvider
 {
 
-    protected $twilioClient;
     protected $countryCode;
     protected $phoneNumber;
 
-    public function __construct(\Services_Twilio $twilioClient, $countryCode)
+    public function __construct($countryCode)
     {
-        $this->twilioClient = $twilioClient;
-        $this->countryCode  = strtoupper($countryCode);
+        $this->countryCode = strtoupper($countryCode);
     }
 
     public function getPhoneNumber()
@@ -32,15 +30,15 @@ class PhoneNumberProvider
 
     public function createPhoneNumber()
     {
-        $numbers = $this->twilioClient->account->available_phone_numbers->getList($this->countryCode, 'Local');
-        $number  = $this->twilioClient->account->incoming_phone_numbers->create(array(
+        $numbers = app(\Services_Twilio::class)->account->available_phone_numbers->getList($this->countryCode, 'Local');
+        $number  = app(\Services_Twilio::class)->account->incoming_phone_numbers->create(array(
             "FriendlyName" => "{$this->countryCode} Number",
-            "VoiceUrl"     => "http://{$_SERVER['HTTP_HOST']}" . dirname($_SERVER['SCRIPT_NAME']) . "/twilioRespond",
+            "VoiceUrl"     => URL::route('twilioRespond'),
             "PhoneNumber"  => $numbers->available_phone_numbers[0]->phone_number,
             "VoiceMethod"  => "GET"
         ));
 
-        if ($number) {
+        if (is_object($number)) {
             $this->phoneNumber               = new \app\models\PhoneNumber();
             $this->phoneNumber->phone_number = $number->phone_number;
             $this->phoneNumber->sid          = $number->sid;
