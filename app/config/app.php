@@ -12,7 +12,7 @@ return array(
       |
      */
 
-    'debug' => false,
+    'debug'           => false,
     /*
       |--------------------------------------------------------------------------
       | Application URL
@@ -23,7 +23,7 @@ return array(
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url' => 'http://localhost',
+    'url'             => 'http://localhost',
     /*
       |--------------------------------------------------------------------------
       | Application Timezone
@@ -34,7 +34,7 @@ return array(
       | ahead and set this to a sensible default for you out of the box.
       |
      */
-    'timezone' => 'UTC',
+    'timezone'        => 'UTC',
     /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
@@ -45,7 +45,7 @@ return array(
       | to any of the locales which will be supported by the application.
       |
      */
-    'locale' => 'en',
+    'locale'          => 'en',
     /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale
@@ -67,8 +67,8 @@ return array(
       | will not be safe. Please do this before deploying an application!
       |
      */
-    'key' => 'rSKlPYuuHmewEoKrVdt8qOunnhBvbXEv',
-    'cipher' => MCRYPT_RIJNDAEL_128,
+    'key'             => 'rSKlPYuuHmewEoKrVdt8qOunnhBvbXEv',
+    'cipher'          => MCRYPT_RIJNDAEL_128,
     /*
       |--------------------------------------------------------------------------
       | Autoloaded Service Providers
@@ -79,7 +79,7 @@ return array(
       | this array to grant expanded functionality to your applications.
       |
      */
-    'providers' => array(
+    'providers'       => array(
         'Illuminate\Foundation\Providers\ArtisanServiceProvider',
         'Illuminate\Auth\AuthServiceProvider',
         'Illuminate\Cache\CacheServiceProvider',
@@ -107,6 +107,7 @@ return array(
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
         \app\providers\TwilioServiceProvider::class,
+        \app\providers\TwilioTwimlServiceProvider::class,
     ),
     /*
       |--------------------------------------------------------------------------
@@ -118,7 +119,7 @@ return array(
       | list of all of the services. Here, you may set its storage spot.
       |
      */
-    'manifest' => storage_path() . '/meta',
+    'manifest'        => storage_path() . '/meta',
     /*
       |--------------------------------------------------------------------------
       | Class Aliases
@@ -129,7 +130,7 @@ return array(
       | the aliases are "lazy" loaded so they don't hinder performance.
       |
      */
-    'aliases' => array(
+    'aliases'         => array(
         'App'               => 'Illuminate\Support\Facades\App',
         'Artisan'           => 'Illuminate\Support\Facades\Artisan',
         'Auth'              => 'Illuminate\Support\Facades\Auth',
