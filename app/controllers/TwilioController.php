@@ -5,7 +5,7 @@ class TwilioController extends BaseController
 
     public function respond()
     {
-        $phoneCall               = new app\models\PhoneCall();
+        $phoneCall               = new \app\models\PhoneCall();
         $phoneCall->phone_number = Input::get('phone_number');
         $phoneCall->save();
 
